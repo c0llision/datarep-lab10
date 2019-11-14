@@ -84,10 +84,24 @@ app.delete('/api/movies/:id', (req, res)=>{
 })
 
 app.get('/api/movies/:id', (req, res) => {
-    Movie.findById(req.params.id, function (err, movies) {
-        res.json({movies: movies});
+    Movie.findById(req.params.id, (err, movies)=>{
+        res.json(movies);
     })
 })
+
+app.put('/api/movies/:id', (req, res) => {
+    console.log("Title: " + req.body.title);
+    console.log("Year: " + req.body.year);
+    console.log("Poster: " + req.body.poster);
+    console.log("id: " + req.params.id);
+    Movie.findByIdAndUpdate(req.params.id,
+        req.body,
+        {new:true},
+        (error, data)=>{
+            res.json(data);
+        });
+    console.log(req.body);
+});
 
 app.use('/test',express.static('public/index.html'))
 
